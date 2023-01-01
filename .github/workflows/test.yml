@@ -10,11 +10,11 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MYSQL_ROOT_USER: ${{secrets.ROOTUSER}}
-          MYSQL_ROOT_PASSWORD: ${{secrets.ROOTPASS}}
-          MYSQL_DATABASE: ${{secrets.DATABASE}}
-          MYSQL_USER: ${{secrets.USERNAME}}
-          MYSQL_PASSWORD: ${{secrets.USERPASS}}
+          # MYSQL_ROOT_USER: ${{secrets.ROOTUSER}}
+          # MYSQL_ROOT_PASSWORD: ${{secrets.ROOTPASS}}
+          # MYSQL_DATABASE: ${{secrets.DATABASE}}
+          # MYSQL_USER: ${{secrets.USERNAME}}
+          # MYSQL_PASSWORD: ${{secrets.USERPASS}}
           TZ: 'Asia/Tokyo'
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           BIND-ADDRESS: 127.0.0.1
@@ -33,6 +33,6 @@ jobs:
           PORT: 8080
           DB_HOST: mysql
           DB_PORT: 3306
-          DB_USER: ${{secrets.USERNAME}}
-          DB_PASSWORD: ${{secrets.USERPASS}}
-          DB_NAME: ${{secrets.DATABASE}}
+          # DB_USER: ${{secrets.USERNAME}}
+          # DB_PASSWORD: ${{secrets.USERPASS}}
+          # DB_NAME: ${{secrets.DATABASE}}
