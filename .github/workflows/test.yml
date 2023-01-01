@@ -1,0 +1,38 @@
+name: test
+on:
+  push:
+    branches: [ main ]
+jobs:
+  golangci:
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_USER: ${{secrets.ROOTUSER}}
+          MYSQL_ROOT_PASSWORD: ${{secrets.ROOTPASS}}
+          MYSQL_DATABASE: ${{secrets.DATABASE}}
+          MYSQL_USER: ${{secrets.USERNAME}}
+          MYSQL_PASSWORD: ${{secrets.USERPASS}}
+          TZ: 'Asia/Tokyo'
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          BIND-ADDRESS: 127.0.0.1
+        options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10
+    strategy:
+      matrix:
+        go-version: [1.19.x]
+        os: [ubuntu-latest]
+    name: test
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: testing
+        run: ENV_GO=citest bash -c 'go test -v -race -shuffle=on -covermode=atomic -v ./...'
+        env:
+          PORT: 8080
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_USER: ${{secrets.USERNAME}}
+          DB_PASSWORD: ${{secrets.USERPASS}}
+          DB_NAME: ${{secrets.DATABASE}}
