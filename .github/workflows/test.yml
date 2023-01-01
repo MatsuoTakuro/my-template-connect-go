@@ -27,12 +27,5 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - name: testing
-        run: ENV_GO=citest bash -c 'go test -v -race -shuffle=on -covermode=atomic -v ./...'
-        # env:
-        #   PORT: 8080
-        #   DB_HOST: mysql
-        #   DB_PORT: 3306
-        #   DB_USER: ${{secrets.USERNAME}}
-        #   DB_PASSWORD: ${{secrets.USERPASS}}
-        #   DB_NAME: ${{secrets.DATABASE}}
+      - name: go test
+        run: bash -c 'go test -v -race -shuffle=on -covermode=atomic -v ./...'
