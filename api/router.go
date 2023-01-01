@@ -31,7 +31,6 @@ func NewRouter(db *sql.DB) *mux.Router {
 
 	r.Use(middlewares.JsonResponseMiddleware)
 	r.Use(middlewares.LoggingMiddleware)
-	r.Use(middlewares.AuthMiddleware)
 
 	return r
 }

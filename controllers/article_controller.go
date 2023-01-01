@@ -2,12 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
-	"errors"
 	"io"
 	"net/http"
 	"strconv"
 
-	"github.com/MatsuoTakuro/my-template-connect-go/api/contexts"
 	"github.com/MatsuoTakuro/my-template-connect-go/apperrors"
 	"github.com/MatsuoTakuro/my-template-connect-go/controllers/services"
 	"github.com/MatsuoTakuro/my-template-connect-go/models"
@@ -32,13 +30,6 @@ func (c *ArticleController) PostArticleHandler(w http.ResponseWriter, req *http.
 	var reqArticle models.Article
 	if err := json.NewDecoder(req.Body).Decode(&reqArticle); err != nil {
 		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad request body")
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
-
-	authedUserName := contexts.GetUserName(req.Context())
-	if reqArticle.UserName != authedUserName {
-		err := apperrors.NotMatchUser.Wrap(errors.New("does not match reqBody user and idtoken user"), "invalid parameters")
 		apperrors.ErrorHandler(w, req, err)
 		return
 	}
