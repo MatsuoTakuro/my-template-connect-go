@@ -68,7 +68,7 @@ func TestInsertArticle(t *testing.T) {
 	article := models.Article{
 		Title:    "insertTest",
 		Contents: "testest",
-		UserName: "saki",
+		UserName: "Takuro Matsuo",
 	}
 
 	expectedArticleNum := 3

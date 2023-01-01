@@ -7,7 +7,7 @@ var articleTestData = []models.Article{
 		ID:          1,
 		Title:       "firstPost",
 		Contents:    "This is my first blog",
-		UserName:    "saki",
+		UserName:    "Takuro Matsuo",
 		NiceNum:     2,
 		CommentList: commentTestData,
 	},
@@ -15,7 +15,7 @@ var articleTestData = []models.Article{
 		ID:       2,
 		Title:    "2nd",
 		Contents: "Second blog post",
-		UserName: "saki",
+		UserName: "Takuro Matsuo",
 		NiceNum:  4,
 	},
 }
