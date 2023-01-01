@@ -12,10 +12,11 @@ import (
 var testDB *sql.DB
 
 var (
-	dbUser     = "docker"
-	dbPassword = "docker"
-	dbDatabase = "sampledb"
-	dbConn     = fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/%s?parseTime=true", dbUser, dbPassword, dbDatabase)
+	dbUser        = "docker"
+	dbPassword    = "docker"
+	dbPasswordArg = fmt.Sprintf("--password=%s", dbPassword)
+	dbDatabase    = "sampledb"
+	dbConn        = fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/%s?parseTime=true", dbUser, dbPassword, dbDatabase)
 )
 
 func connectDB() error {
@@ -28,7 +29,7 @@ func connectDB() error {
 }
 
 func setupTestData() error {
-	cmd := exec.Command("mysql", "-h", "127.0.0.1", "-u", "docker", "sampledb", "--password=docker", "-e", "source ./testdata/setupDB.sql")
+	cmd := exec.Command("mysql", "-h", "127.0.0.1", "-u", dbUser, dbDatabase, dbPasswordArg, "-e", "source ./testdata/setupDB.sql")
 	err := cmd.Run()
 	if err != nil {
 		return err
@@ -37,7 +38,7 @@ func setupTestData() error {
 }
 
 func cleanupDB() error {
-	cmd := exec.Command("mysql", "-h", "127.0.0.1", "-u", "docker", "sampledb", "--password=docker", "-e", "source ./testdata/cleanupDB.sql")
+	cmd := exec.Command("mysql", "-h", "127.0.0.1", "-u", dbUser, dbDatabase, dbPasswordArg, "-e", "source ./testdata/cleanupDB.sql")
 	err := cmd.Run()
 	if err != nil {
 		return err
