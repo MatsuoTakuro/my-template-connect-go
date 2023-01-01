@@ -28,4 +28,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: go test
-        run: bash -c 'go test -v -race -shuffle=on -covermode=atomic -v ./...'
+        run: bash -c 'go test -v -race -shuffle=on -covermode=atomic ./...'
