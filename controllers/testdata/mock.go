@@ -23,7 +23,3 @@ func (s *serviceMock) GetArticleService(articleID int) (models.Article, error) {
 func (s *serviceMock) PostNiceService(article models.Article) (models.Article, error) {
 	return articleTestData[0], nil
 }
-
-func (s *serviceMock) PostCommentService(comment models.Comment) (models.Comment, error) {
-	return commentTestData[0], nil
-}
