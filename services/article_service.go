@@ -11,7 +11,7 @@ import (
 
 // PostArticleHandlerで使うことを想定したサービス
 // 引数の情報をもとに新しい記事を作り、結果を返却
-func (s *MyAppService) PostArticleService(article models.Article) (models.Article, error) {
+func (s *AppService) PostArticleService(article models.Article) (models.Article, error) {
 	newArticle, err := repositories.InsertArticle(s.db, article)
 	if err != nil {
 		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
@@ -22,7 +22,7 @@ func (s *MyAppService) PostArticleService(article models.Article) (models.Articl
 
 // ArticleListHandlerで使うことを想定したサービス
 // 指定pageの記事一覧を返却
-func (s *MyAppService) GetArticleListService(page int) ([]models.Article, error) {
+func (s *AppService) GetArticleListService(page int) ([]models.Article, error) {
 	articleList, err := repositories.SelectArticleList(s.db, page)
 	if err != nil {
 		err = apperrors.GetDataFailed.Wrap(err, "fail to get data")
@@ -39,7 +39,7 @@ func (s *MyAppService) GetArticleListService(page int) ([]models.Article, error)
 
 // ArticleDetailHandlerで使うことを想定したサービス
 // 指定IDの記事情報を返却
-func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) {
+func (s *AppService) GetArticleService(articleID int) (models.Article, error) {
 	type articleResult struct {
 		article models.Article
 		err     error
@@ -55,33 +55,8 @@ func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) 
 		}
 	}(ac, s.db, articleID)
 
-	type commentListResult struct {
-		commentList *[]models.Comment
-		err         error
-	}
-	cc := make(chan commentListResult)
-	defer close(cc)
-
-	go func(ch chan<- commentListResult, db *sql.DB, articleID int) {
-		cl, err := repositories.SelectCommentList(db, articleID)
-		ch <- commentListResult{
-			commentList: &cl,
-			err:         err,
-		}
-	}(cc, s.db, articleID)
-
 	var article models.Article
-	var commentList []models.Comment
-	var articleGetErr, commentGetErr error
-
-	for i := 0; i < 2; i++ {
-		select {
-		case a := <-ac:
-			article, articleGetErr = a.article, a.err
-		case c := <-cc:
-			commentList, commentGetErr = *c.commentList, c.err
-		}
-	}
+	var articleGetErr error
 
 	if articleGetErr != nil {
 		if errors.Is(articleGetErr, sql.ErrNoRows) {
@@ -92,19 +67,12 @@ func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) 
 		return models.Article{}, err
 	}
 
-	if commentGetErr != nil {
-		err := apperrors.GetDataFailed.Wrap(commentGetErr, "fail to get data")
-		return models.Article{}, err
-	}
-
-	article.CommentList = append(article.CommentList, commentList...)
-
 	return article, nil
 }
 
 // PostNiceHandlerで使うことを想定したサービス
 // 指定IDの記事のいいね数を+1して、結果を返却
-func (s *MyAppService) PostNiceService(article models.Article) (models.Article, error) {
+func (s *AppService) PostNiceService(article models.Article) (models.Article, error) {
 	err := repositories.UpdateNiceNum(s.db, article.ID)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {

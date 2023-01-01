@@ -2,10 +2,10 @@ package services
 
 import "database/sql"
 
-type MyAppService struct {
+type AppService struct {
 	db *sql.DB
 }
 
-func NewMyAppService(db *sql.DB) *MyAppService {
-	return &MyAppService{db: db}
+func NewAppService(db *sql.DB) *AppService {
+	return &AppService{db: db}
 }

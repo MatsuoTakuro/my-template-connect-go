@@ -11,7 +11,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var aSer *services.MyAppService
+var aSer *services.AppService
 
 var (
 	dbUser     = "docker"
@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 		os.Exit(1)
 	}
 
-	aSer = services.NewMyAppService(db)
+	aSer = services.NewAppService(db)
 
 	m.Run()
 }

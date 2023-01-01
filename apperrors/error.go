@@ -1,17 +1,17 @@
 package apperrors
 
-type MyAppError struct {
+type AppError struct {
 	ErrCode
 	Message string
 	Err     error `json:"-"`
 }
 
-var _ error = (*MyAppError)(nil)
+var _ error = (*AppError)(nil)
 
-func (myErr *MyAppError) Error() string {
-	return myErr.Err.Error()
+func (ae *AppError) Error() string {
+	return ae.Err.Error()
 }
 
-func (myErr *MyAppError) Unwrap() error {
-	return myErr.Err
+func (ae *AppError) Unwrap() error {
+	return ae.Err
 }

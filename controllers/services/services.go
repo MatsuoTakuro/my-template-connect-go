@@ -9,8 +9,3 @@ type ArticleServicer interface {
 	GetArticleService(articleID int) (models.Article, error)
 	PostNiceService(article models.Article) (models.Article, error)
 }
-
-// /commentを引き受けるサービス
-type CommentServicer interface {
-	PostCommentService(comment models.Comment) (models.Comment, error)
-}

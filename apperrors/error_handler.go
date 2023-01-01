@@ -10,9 +10,9 @@ import (
 )
 
 func ErrorHandler(w http.ResponseWriter, r *http.Request, err error) {
-	var appErr *MyAppError
+	var appErr *AppError
 	if !errors.As(err, &appErr) {
-		appErr = &MyAppError{
+		appErr = &AppError{
 			ErrCode: Unknown,
 			Message: "internal process failed",
 			Err:     err,
