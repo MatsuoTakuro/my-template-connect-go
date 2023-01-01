@@ -5,7 +5,7 @@ build: ## TBU
 	docker compose build
 
 up: ## TBU
-	docker compose up -d
+	docker compose up
 
 up_only_app: ## Confirm error logs in stout when db does not run
 	docker compose up app
