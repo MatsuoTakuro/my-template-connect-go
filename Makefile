@@ -24,7 +24,7 @@ db_cleanup: ## TBU
 
 test: ## Execute tests
   ## go: -race requires cgo; enable cgo by setting CGO_ENABLED=1
-	go test -v -race -shuffle=on -covermode=atomic ./...
+	go test -race -shuffle=on -covermode=atomic ./...
 
 google_pkey: ## show google's pulic keys
 	http https://accounts.google.com/.well-known/openid-configuration

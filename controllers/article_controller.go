@@ -8,8 +8,6 @@ import (
 
 	"github.com/MatsuoTakuro/my-template-connect-go/apperrors"
 	"github.com/MatsuoTakuro/my-template-connect-go/controllers/services"
-	"github.com/MatsuoTakuro/my-template-connect-go/models"
-	"github.com/gorilla/mux"
 )
 
 type ArticleController struct {
@@ -23,28 +21,6 @@ func NewArticleController(s services.ArticleServicer) *ArticleController {
 // GET /hello のハンドラ
 func (c *ArticleController) HelloHandler(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, `{"message": "Hello, world!"}`)
-}
-
-// POST /article のハンドラ
-func (c *ArticleController) PostArticleHandler(w http.ResponseWriter, req *http.Request) {
-	var reqArticle models.Article
-	if err := json.NewDecoder(req.Body).Decode(&reqArticle); err != nil {
-		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad request body")
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
-
-	article, err := c.service.PostArticleService(reqArticle)
-	if err != nil {
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
-
-	if err = json.NewEncoder(w).Encode(article); err != nil {
-		err = apperrors.ResBodyEncodeFailed.Wrap(err, "fail to encode response body")
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
 }
 
 // GET /article/list のハンドラ
@@ -72,50 +48,6 @@ func (c *ArticleController) ArticleListHandler(w http.ResponseWriter, req *http.
 	}
 
 	if err = json.NewEncoder(w).Encode(articleList); err != nil {
-		err = apperrors.ResBodyEncodeFailed.Wrap(err, "fail to encode response body")
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
-}
-
-// GET /article/{id} のハンドラ
-func (c *ArticleController) ArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
-	articleID, err := strconv.Atoi(mux.Vars(req)["id"])
-	if err != nil {
-		err = apperrors.BadParam.Wrap(err, "pathparam must be number")
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
-
-	article, err := c.service.GetArticleService(articleID)
-	if err != nil {
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
-
-	if err = json.NewEncoder(w).Encode(article); err != nil {
-		err = apperrors.ResBodyEncodeFailed.Wrap(err, "fail to encode response body")
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
-}
-
-// POST /article/nice のハンドラ
-func (c *ArticleController) PostNiceHandler(w http.ResponseWriter, req *http.Request) {
-	var reqArticle models.Article
-	if err := json.NewDecoder(req.Body).Decode(&reqArticle); err != nil {
-		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad request body")
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
-
-	article, err := c.service.PostNiceService(reqArticle)
-	if err != nil {
-		apperrors.ErrorHandler(w, req, err)
-		return
-	}
-
-	if err = json.NewEncoder(w).Encode(article); err != nil {
 		err = apperrors.ResBodyEncodeFailed.Wrap(err, "fail to encode response body")
 		apperrors.ErrorHandler(w, req, err)
 		return
