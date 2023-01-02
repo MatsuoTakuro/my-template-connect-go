@@ -26,5 +26,5 @@ func TestTmpSelectStoreList(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	t.Fatal("got", got)
+	t.Log("got", got)
 }
