@@ -16,6 +16,15 @@ func TestSelectStoreList(t *testing.T) {
 	}
 
 	if num := len(got); num != expectedNum {
-		t.Errorf("want %d but got %d stores: %v\n", expectedNum, num, got)
+		t.Errorf("want %d but got %d stores\n", expectedNum, num)
 	}
+}
+
+func TestTmpSelectStoreList(t *testing.T) {
+	got, err := repositories.TmpSelectStoreList(testDB)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Fatal("got", got)
 }

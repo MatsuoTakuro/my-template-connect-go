@@ -27,11 +27,5 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - name: set up testdata
-        run: bash -c 'mysql -h 127.0.0.1 -u ${{secrets.USERNAME}} ${{secrets.DATABASE}} --password=${{secrets.USERPASS}} < ./repositories/testdata/setupDB.sql'
       - name: go test
         run: bash -c 'go test -v -race -shuffle=on -covermode=atomic ./...'
-    env:
-      MYSQL_DATABASE: ${{secrets.DATABASE}}
-      MYSQL_USER: ${{secrets.USERNAME}}
-      MYSQL_PASSWORD: ${{secrets.USERPASS}}
