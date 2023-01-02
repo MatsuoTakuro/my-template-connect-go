@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS stores (
   id          INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   store_cd    INTEGER NOT NULL,
   company_cd  INTEGER NOT NULL, UNIQUE(store_cd, company_cd),
-  store_name  VARCHAR(50) NOT NULL,
+  store_name  VARCHAR(100) NOT NULL,
   address     VARCHAR(255),
   latitude    DECIMAL(7,4),
   longitude   DECIMAL(7,4),
