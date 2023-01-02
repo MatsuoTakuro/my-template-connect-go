@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS stores (
   latitude    DECIMAL(7,4),
   longitude   DECIMAL(7,4),
   created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+)engine=innodb charset=utf8mb4;
 
 INSERT INTO stores (store_cd, company_cd, store_name, address, latitude, longitude) VALUES
   (4,1,'スーパーマーケット 田村店','福岡県福岡市早良区田村1-15-5',33.54463620,130.32588870)
