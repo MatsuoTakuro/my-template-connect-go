@@ -16,6 +16,6 @@ func TestSelectStoreList(t *testing.T) {
 	}
 
 	if num := len(got); num != expectedNum {
-		t.Errorf("want %d but got %d stores\n", expectedNum, num)
+		t.Errorf("want %d but got %d stores: %v\n", expectedNum, num, got)
 	}
 }

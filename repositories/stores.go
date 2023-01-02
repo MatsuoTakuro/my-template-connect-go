@@ -9,12 +9,10 @@ import (
 func SelectStoreList(db *sql.DB, searchQuery string, companyCD int) ([]models.Store, error) {
 	const sqlStr = `
 		SELECT store_cd, company_cd, store_name, address, latitude, longitude
-		FROM stores
-		WHERE company_cd = ?
-		AND store_name LIKE CONCAT('%', ?, '%');
+		FROM stores;
 	`
 
-	rows, err := db.Query(sqlStr, companyCD, searchQuery)
+	rows, err := db.Query(sqlStr)
 	if err != nil {
 		return nil, err
 	}
