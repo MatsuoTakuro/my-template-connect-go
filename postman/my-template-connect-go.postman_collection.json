@@ -1,0 +1,257 @@
+{
+	"info": {
+		"_postman_id": "47dd4ccf-2c28-471c-84de-5705dde72484",
+		"name": "my-template-connect-go",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17359887"
+	},
+	"item": [
+		{
+			"name": "PostArticleHandler",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"aX\",\n    \"contents\": \"bX\",\n    \"user_name\": \"xxx\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/article",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"article"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostNiceHandler",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"article_id\": 1,\n    \"title\": \"a3\",\n    \"contents\": \"b3\",\n    \"user_name\": \"Takuro Matsuo\",\n    \"nice\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/article/nice",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"article",
+						"nice"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ArticleListHandler",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"a\",\n    \"contents\": \"b\",\n    \"user_name\": \"c\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/article/list",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"article",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StoreListHandler",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"a\",\n    \"contents\": \"b\",\n    \"user_name\": \"c\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/store?search_query=田&company_cd=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"store"
+					],
+					"query": [
+						{
+							"key": "search_query",
+							"value": "田"
+						},
+						{
+							"key": "company_cd",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HelloHandler",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"a\",\n    \"contents\": \"b\",\n    \"user_name\": \"c\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/hello",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HelloStoreHandler",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"a\",\n    \"contents\": \"b\",\n    \"user_name\": \"c\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/hello-store",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hello-store"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ArticleDetailHandler",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"a\",\n    \"contents\": \"b\",\n    \"user_name\": \"c\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/article/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"article",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id_expired_token",
+			"value": "1"
+		},
+		{
+			"key": "id_token",
+			"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjhlMGFjZjg5MWUwOTAwOTFlZjFhNWU3ZTY0YmFiMjgwZmQxNDQ3ZmEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxMDAyNTUxNDYzODc0LTU2YzA3Njg3aGpuYWgydHB2dmM5bzRobzI2M3E2bWIwLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiMTAwMjU1MTQ2Mzg3NC01NmMwNzY4N2hqbmFoMnRwdnZjOW80aG8yNjNxNm1iMC5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExNzg2MjYwNTQ5NDc1NjA5NzU0MyIsIm5vbmNlIjoiYWJjIiwibmFtZSI6IlRha3VybyBNYXRzdW8iLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUVkRlRwNnNfZFlfX3pXRzAwc1FVU2JIdWs3S1dvZ1c1dzlfd2x0Mkc3QVd4eEU9czk2LWMiLCJnaXZlbl9uYW1lIjoiVGFrdXJvIiwiZmFtaWx5X25hbWUiOiJNYXRzdW8iLCJsb2NhbGUiOiJlbiIsImlhdCI6MTY3MjU1NTI5NywiZXhwIjoxNjcyNTU4ODk3LCJqdGkiOiJiYmJiMjI1Y2YzZDZlMzcyOWNkMzAxNmFjMWRlN2IwMzRiMzRjNjBjIn0.QEKsLH-I47wgLAekvhWjWeg1bXGBHuOT-TSRJqdkwnWK6phRE5qUfsFSrYExiJiM54vDwPhrce8K1ZYRWCh9gghfaxQcWKWPgt8ReYWJH4LqnLYsHf9WH1soxwGgV4ohRPxcSmW_4yZCfhFUxfFxLOdfkn4tWmXI79II333Yryr6oVN9kwHiy92aHM0dEGCAQn8qzwDp1QC0_EjVg7BGUcYIo0LJoNvodqHrMXRR1xj6YlGvoAnKtfLf3293ffsmwysAtyP8a6cL7_bzKm81ZoNphPuvQPOU1JMe3KKSu3qAWpiGWPc8OW7bb19NCBo3t_ocHU1y_4peGXkN8wOzuA"
+		}
+	]
+}

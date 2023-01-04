@@ -19,9 +19,8 @@ func NewStoreController(s services.StoreServicer) *StoreController {
 	return &StoreController{service: s}
 }
 
-// GET /hello のハンドラ
 func (c *StoreController) HelloHandler(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, `{"message": "Hello, world!"}`)
+	io.WriteString(w, `{"message": "Hello, world! by store"}`)
 }
 
 func (c *StoreController) StoreListHandler(w http.ResponseWriter, req *http.Request) {
