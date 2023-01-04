@@ -31,3 +31,17 @@ func TestMain(m *testing.M) {
 
 	m.Run()
 }
+
+func BenchmarkGetStoreListService(b *testing.B) {
+	searchQuery := "田"
+	companyCD := 1
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := aSer.GetStoreListService(searchQuery, companyCD)
+		if err != nil {
+			b.Error(err)
+			break
+		}
+	}
+}
