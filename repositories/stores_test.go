@@ -19,12 +19,3 @@ func TestSelectStoreList(t *testing.T) {
 		t.Errorf("want %d but got %d stores\n", expectedNum, num)
 	}
 }
-
-func TestTmpSelectStoreList(t *testing.T) {
-	got, err := repositories.TmpSelectStoreList(testDB)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	t.Log("got", got)
-}
