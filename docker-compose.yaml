@@ -6,7 +6,8 @@ services:
       args:
         - target=dev
     environment:
-      PORT: 8080
+      HTTP1_PORT: 8080
+      HTTP2_PORT: 9090
       DB_HOST: mysql
       DB_PORT: 3306
       DB_USER: ${USERNAME}
@@ -16,6 +17,7 @@ services:
       - .:/app
     ports:
       - "8080:8080"
+      - "9090:9090"
   mysql:
     image: mysql:5.7
     platform: linux/amd64 # this needs for m1 user!

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package templateconnectgo.v1;
+
+option go_package = "github.com/MatsuoTakuro/my-template-connect-go/gen/templateconnectgo/v1;storev1";
+
+service StoreService {
+  rpc ListStores(ListStoresRequest) returns (ListStoresResponse) {}
+}
+
+message ListStoresRequest {
+  string search_query = 1;
+  string company_cd = 2;
+}
+
+message ListStoresResponse {
+  message Store {
+    int32 store_cd = 1;
+    int32 company_cd = 2;
+    string store_name = 3;
+    string address = 4;
+    double latitude = 5;
+    double longitude = 6;
+  }
+  repeated Store stores = 1;
+}

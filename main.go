@@ -9,10 +9,13 @@ import (
 
 	"github.com/MatsuoTakuro/my-template-connect-go/api"
 	_ "github.com/go-sql-driver/mysql"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 )
 
 var (
-	appPort    = os.Getenv("PORT")
+	httpPort   = os.Getenv("HTTP1_PORT")
+	grpcPort   = os.Getenv("HTTP2_PORT")
 	dbHost     = os.Getenv("DB_HOST")
 	dbPort     = os.Getenv("DB_PORT")
 	dbUser     = os.Getenv("DB_USER")
@@ -28,8 +31,15 @@ func main() {
 		return
 	}
 
-	r := api.NewRouter(db)
+	hr := api.NewHttpRouter(db)
+	log.Println("http server start at port", httpPort)
 
-	log.Println("server start at port", appPort)
-	log.Fatal(http.ListenAndServe(":"+appPort, r))
+	gr := api.NewGrpcRouter(db)
+	log.Println("grpc server start at port", grpcPort)
+
+	go func() {
+		log.Fatal(http.ListenAndServe(":"+httpPort, hr))
+	}()
+
+	log.Fatal(http.ListenAndServe(":"+grpcPort, h2c.NewHandler(gr, &http2.Server{})))
 }

@@ -10,18 +10,29 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func NewRouter(db *sql.DB) *mux.Router {
+func NewHttpRouter(db *sql.DB) *mux.Router {
 	ser := services.NewAppService(db)
 	sCon := controllers.NewStoreController(ser)
 
-	r := mux.NewRouter()
+	hr := mux.NewRouter()
 
-	r.HandleFunc("/hello", sCon.HelloHandler).Methods(http.MethodGet)
+	hr.HandleFunc("/hello", sCon.HelloHandler).Methods(http.MethodGet)
 
-	r.HandleFunc("/store", sCon.StoreListHandler).Methods(http.MethodGet)
+	hr.HandleFunc("/store", sCon.StoreListHandler).Methods(http.MethodGet)
 
-	r.Use(middlewares.JsonResponseMiddleware)
-	r.Use(middlewares.LoggingMiddleware)
+	hr.Use(middlewares.JsonResponseMiddleware)
+	hr.Use(middlewares.LoggingMiddleware)
 
-	return r
+	return hr
+}
+
+func NewGrpcRouter(db *sql.DB) *http.ServeMux {
+	ser := services.NewAppService(db)
+	gCon := controllers.NewGreetController(ser)
+
+	gr := http.NewServeMux()
+
+	gr.Handle(gCon.GreetHandler())
+
+	return gr
 }
