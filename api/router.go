@@ -32,7 +32,8 @@ func NewGrpcRouter(db *sql.DB) *http.ServeMux {
 
 	gr := http.NewServeMux()
 
-	gr.Handle(gCon.GreetHandler())
+	greetPath, greetHandler := gCon.GreetHandler()
+	gr.Handle(greetPath, middlewares.LoggingMiddleware(greetHandler))
 
 	return gr
 }
