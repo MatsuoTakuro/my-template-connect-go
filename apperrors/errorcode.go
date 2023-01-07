@@ -1,5 +1,7 @@
 package apperrors
 
+import "errors"
+
 type ErrCode string
 
 const (
@@ -21,5 +23,13 @@ func (code ErrCode) Wrap(err error, message string) error {
 		ErrCode: code,
 		Message: message,
 		Err:     err,
+	}
+}
+
+func (code ErrCode) NewAppError(message string) *AppError {
+	return &AppError{
+		ErrCode: code,
+		Message: message,
+		Err:     errors.New(message),
 	}
 }
