@@ -10,7 +10,7 @@ service StoreService {
 
 message ListStoresRequest {
   string search_query = 1;
-  string company_cd = 2;
+  int32 company_cd = 2;
 }
 
 message ListStoresResponse {

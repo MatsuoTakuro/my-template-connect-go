@@ -3,7 +3,6 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/bufbuild/connect-go"
@@ -22,13 +21,12 @@ func NewGreetController(s services.GreetServicer) *GreetController {
 }
 
 func (c *GreetController) GreetHandler() (string, http.Handler) {
-	return greetv1connect.NewGreetServiceHandler(&GreetServer{})
+	return greetv1connect.NewGreetServiceHandler(c)
 }
 
-type GreetServer struct{}
-
-func (s *GreetServer) Greet(ctx context.Context, req *connect.Request[greetv1.GreetRequest]) (*connect.Response[greetv1.GreetResponse], error) {
-	log.Println("Request headers: ", req.Header())
+func (c *GreetController) Greet(
+	ctx context.Context, req *connect.Request[greetv1.GreetRequest],
+) (*connect.Response[greetv1.GreetResponse], error) {
 	res := connect.NewResponse(&greetv1.GreetResponse{
 		Greeting: fmt.Sprintf("Hello, %s!", req.Msg.Name),
 	})
