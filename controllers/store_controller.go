@@ -27,7 +27,7 @@ func (c *StoreController) HelloHandler(w http.ResponseWriter, req *http.Request)
 	io.WriteString(w, `{"message": "Hello, world! by store"}`)
 }
 
-func (c *StoreController) StoreListHandler(w http.ResponseWriter, req *http.Request) {
+func (c *StoreController) HttpStoreListHandler(w http.ResponseWriter, req *http.Request) {
 	queryMap := req.URL.Query()
 	var searchQuery string
 	if sq, ok := queryMap[params.SearchQuery]; ok && len(sq) > 0 {
@@ -58,7 +58,7 @@ func (c *StoreController) StoreListHandler(w http.ResponseWriter, req *http.Requ
 	}
 }
 
-func (c *StoreController) GrpcStoreListHandler() (string, http.Handler) {
+func (c *StoreController) StoreListHandler() (string, http.Handler) {
 	return storev1connect.NewStoreServiceHandler(c)
 }
 
@@ -78,15 +78,26 @@ func (c *StoreController) ListStores(
 
 	}
 
-	_, err := c.service.GetStoreListService(searchQuery, int(companyCD))
-	// storeList, err := c.service.GetStoreListService(searchQuery, int(companyCD))
+	storeList, err := c.service.GetStoreListService(searchQuery, int(companyCD))
 	if err != nil {
 		return nil, apperrors.GrpcError(ctx, err)
 	}
 
+	var stores []*storev1.ListStoresResponse_Store
+	for _, s := range storeList {
+		storeRes := &storev1.ListStoresResponse_Store{
+			StoreCd:   int32(s.StoreCD),
+			CompanyCd: int32(s.CompanyCD),
+			StoreName: s.StoreName,
+			Address:   s.Address,
+			Latitude:  s.Latitude,
+			Longitude: s.Longitude,
+		}
+		stores = append(stores, storeRes)
+	}
+
 	res := connect.NewResponse(&storev1.ListStoresResponse{
-		// TODO: investigate how to convert []models.Store to []*storev1.ListStoresResponse_Store
-		// Stores: storeList,
+		Stores: stores,
 	})
 
 	return res, nil

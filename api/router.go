@@ -18,7 +18,7 @@ func NewHttpRouter(db *sql.DB) *mux.Router {
 
 	hr.HandleFunc("/hello", sCon.HelloHandler).Methods(http.MethodGet)
 
-	hr.HandleFunc("/store", sCon.StoreListHandler).Methods(http.MethodGet)
+	hr.HandleFunc("/store", sCon.HttpStoreListHandler).Methods(http.MethodGet)
 
 	hr.Use(middlewares.JsonResponseMiddleware)
 	hr.Use(middlewares.LoggingMiddleware)
@@ -38,7 +38,7 @@ func NewGrpcRouter(db *sql.DB) *http.ServeMux {
 	gr.Handle(greetPath, middlewares.LoggingMiddleware(greetHandler))
 
 	// grpcurl -plaintext -v -proto ./proto/templateconnectgo/v1/store.proto  -d '{"search_query": "田", "company_cd": 1}' localhost:9090 templateconnectgo.v1.StoreService/ListStores
-	storeListPath, storeListHandler := sCon.GrpcStoreListHandler()
+	storeListPath, storeListHandler := sCon.StoreListHandler()
 	gr.Handle(storeListPath, middlewares.LoggingMiddleware(storeListHandler))
 
 	return gr

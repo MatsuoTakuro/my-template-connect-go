@@ -14,7 +14,7 @@ type storeListParams struct {
 	companyCD   string
 }
 
-func TestStoreListHandler(t *testing.T) {
+func TestHttpStoreListHandler(t *testing.T) {
 	var tests = []struct {
 		name       string
 		query      storeListParams
@@ -31,7 +31,7 @@ func TestStoreListHandler(t *testing.T) {
 
 			res := httptest.NewRecorder()
 
-			sCon.StoreListHandler(res, req)
+			sCon.HttpStoreListHandler(res, req)
 
 			if res.Code != tt.resultCode {
 				t.Errorf("unexpected StatusCode: want %d but %d\n", tt.resultCode, res.Code)
@@ -39,3 +39,6 @@ func TestStoreListHandler(t *testing.T) {
 		})
 	}
 }
+
+// TODO: implement test code for StoreListHandler on grpc
+func TestStoreListHandler(t *testing.T) {}
