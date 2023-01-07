@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-07T10:45:40.904Z",
+  "__export_date": "2023-01-07T13:13:21.228Z",
   "__export_source": "insomnia.desktop.app:v2022.6.0",
   "resources": [
     {
       "_id": "greq_9fe84dadf36d4d05af9bd69d6648a237",
       "parentId": "fld_052da3a98721488faa7e498c06200951",
-      "modified": 1673088218320,
+      "modified": 1673097121931,
       "created": 1673088032148,
       "url": "localhost:9090",
       "name": "GreetHandler",
@@ -47,7 +47,7 @@
     {
       "_id": "greq_2267f7f5681b4f418c0f94e21b8820b8",
       "parentId": "fld_052da3a98721488faa7e498c06200951",
-      "modified": 1673088250337,
+      "modified": 1673097118809,
       "created": 1673087820073,
       "url": "localhost:9090",
       "name": "StoreListHandler",
@@ -65,23 +65,15 @@
     {
       "_id": "req_7d08ba6f1755459290e6960275a0b125",
       "parentId": "fld_2700803de26146b4bddcad0052474d92",
-      "modified": 1673088242514,
+      "modified": 1673097108435,
       "created": 1673087736770,
       "url": "localhost:8080/store?search_query=田&company_cd=1",
       "name": "StoreListHandler",
       "description": "",
       "method": "GET",
-      "body": {
-        "mimeType": "",
-        "text": "{\n    \"title\": \"a\",\n    \"contents\": \"b\",\n    \"user_name\": \"c\"\n}"
-      },
+      "body": {},
       "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
+      "headers": [],
       "authentication": {},
       "metaSortKey": -1673087736770,
       "isPrivate": false,
@@ -108,23 +100,15 @@
     {
       "_id": "req_d5f46f66b09143b086068b8be63a1104",
       "parentId": "fld_2700803de26146b4bddcad0052474d92",
-      "modified": 1673087736768,
+      "modified": 1673097115479,
       "created": 1673087736768,
       "url": "localhost:8080/hello",
       "name": "HelloHandler",
       "description": "",
       "method": "GET",
-      "body": {
-        "mimeType": "",
-        "text": "{\n    \"title\": \"a\",\n    \"contents\": \"b\",\n    \"user_name\": \"c\"\n}"
-      },
+      "body": {},
       "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
+      "headers": [],
       "authentication": {},
       "metaSortKey": -1673087736768,
       "isPrivate": false,
