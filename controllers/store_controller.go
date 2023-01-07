@@ -74,7 +74,7 @@ func (c *StoreController) ListStores(
 
 	companyCD := req.Msg.CompanyCd
 	if companyCD == 0 {
-		return nil, apperrors.GrpcError(ctx, apperrors.BadParam.NewAppError("company_cd must be more than 0"))
+		return nil, apperrors.GrpcError(ctx, apperrors.NewAppError(apperrors.BadParam, "company_cd must be more than 0"))
 
 	}
 

@@ -1,5 +1,7 @@
 package apperrors
 
+import "errors"
+
 type AppError struct {
 	ErrCode
 	Message string
@@ -14,4 +16,12 @@ func (ae *AppError) Error() string {
 
 func (ae *AppError) Unwrap() error {
 	return ae.Err
+}
+
+func NewAppError(errCode ErrCode, message string) *AppError {
+	return &AppError{
+		ErrCode: errCode,
+		Message: message,
+		Err:     errors.New(message),
+	}
 }
