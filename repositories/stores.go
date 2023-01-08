@@ -1,26 +1,29 @@
 package repositories
 
 import (
-	"database/sql"
+	"context"
+	"fmt"
 
 	"github.com/MatsuoTakuro/my-template-connect-go/models"
 )
 
-func SelectStoreList(db *sql.DB, searchQuery string, companyCD int) ([]models.Store, error) {
+func SelectStoreList(
+	ctx context.Context, db Queryer, searchQuery string, companyCD int,
+) ([]models.Store, error) {
 	const sqlStr = `
 		SELECT store_cd, company_cd, store_name, address, latitude, longitude
 		FROM stores
-		WHERE company_cd = ?
-		AND store_name LIKE CONCAT('%', ?, '%');
+		WHERE company_cd = $1
+		AND store_name LIKE $2;
 	`
 
-	rows, err := db.Query(sqlStr, companyCD, searchQuery)
+	rows, err := db.QueryContext(ctx, sqlStr, companyCD, fmt.Sprint("%", searchQuery, "%"))
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	storeArray := make([]models.Store, 0)
+	stores := make([]models.Store, 0)
 	for rows.Next() {
 		var store models.Store
 		err = rows.Scan(&store.StoreCD, &store.CompanyCD, &store.StoreName, &store.Address, &store.Latitude, &store.Longitude)
@@ -28,8 +31,8 @@ func SelectStoreList(db *sql.DB, searchQuery string, companyCD int) ([]models.St
 			return nil, err
 		}
 
-		storeArray = append(storeArray, store)
+		stores = append(stores, store)
 	}
 
-	return storeArray, nil
+	return stores, nil
 }

@@ -9,9 +9,9 @@ import (
 
 	"github.com/MatsuoTakuro/my-template-connect-go/apperrors"
 	"github.com/MatsuoTakuro/my-template-connect-go/controllers/params"
-	"github.com/MatsuoTakuro/my-template-connect-go/controllers/services"
 	storev1 "github.com/MatsuoTakuro/my-template-connect-go/gen/templateconnectgo/v1"
 	"github.com/MatsuoTakuro/my-template-connect-go/gen/templateconnectgo/v1/storev1connect"
+	"github.com/MatsuoTakuro/my-template-connect-go/services"
 	"github.com/bufbuild/connect-go"
 )
 
@@ -45,7 +45,7 @@ func (c *StoreController) HttpStoreListHandler(w http.ResponseWriter, req *http.
 		}
 	}
 
-	storeList, err := c.service.GetStoreListService(searchQuery, companyCD)
+	storeList, err := c.service.GetStoreListService(req.Context(), searchQuery, companyCD)
 	if err != nil {
 		apperrors.ErrorHandler(w, req, err)
 		return
@@ -74,13 +74,13 @@ func (c *StoreController) ListStores(
 
 	companyCD := req.Msg.CompanyCd
 	if companyCD == 0 {
-		return nil, apperrors.GrpcError(ctx, apperrors.NewAppError(apperrors.BadParam, "company_cd must be more than 0"))
+		return nil, apperrors.ErrorHandlingGrpc(ctx, apperrors.NewAppError(apperrors.BadParam, "company_cd must be more than 0"))
 
 	}
 
-	storeList, err := c.service.GetStoreListService(searchQuery, int(companyCD))
+	storeList, err := c.service.GetStoreListService(ctx, searchQuery, int(companyCD))
 	if err != nil {
-		return nil, apperrors.GrpcError(ctx, err)
+		return nil, apperrors.ErrorHandlingGrpc(ctx, err)
 	}
 
 	var stores []*storev1.ListStoresResponse_Store

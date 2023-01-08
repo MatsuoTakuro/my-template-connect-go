@@ -7,9 +7,9 @@ import (
 
 	"github.com/bufbuild/connect-go"
 
-	"github.com/MatsuoTakuro/my-template-connect-go/controllers/services"
 	greetv1 "github.com/MatsuoTakuro/my-template-connect-go/gen/greet/v1"
 	"github.com/MatsuoTakuro/my-template-connect-go/gen/greet/v1/greetv1connect"
+	"github.com/MatsuoTakuro/my-template-connect-go/services"
 )
 
 type GreetController struct {

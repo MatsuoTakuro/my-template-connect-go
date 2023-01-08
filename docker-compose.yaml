@@ -2,41 +2,49 @@ version: '3.3'
 services:
   app:
     image: template-connect-go
+    container_name: template-connect-go
     build:
+      context: .
+      dockerfile: ./Dockerfile
       args:
         - target=dev
     environment:
       HTTP1_PORT: 8080
       HTTP2_PORT: 9090
-      DB_HOST: mysql
-      DB_PORT: 3306
+      DB_HOST: db # service name of db to connect
+      DB_PORT: 5432
+      DB_NAME: ${DATABASE}
       DB_USER: ${USERNAME}
       DB_PASSWORD: ${USERPASS}
-      DB_NAME: ${DATABASE}
     volumes:
       - .:/app
     ports:
       - "8080:8080"
       - "9090:9090"
-  mysql:
-    image: mysql:5.7
-    platform: linux/amd64 # this needs for m1 user!
-    container_name: db-for-go
-    command:
-        - --character-set-server=utf8mb4
-        - --collation-server=utf8mb4_unicode_ci
-        - --sql-mode=ONLY_FULL_GROUP_BY,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
-    environment:
-        MYSQL_ROOT_USER: ${ROOTUSER}
-        MYSQL_ROOT_PASSWORD: ${ROOTPASS}
-        MYSQL_DATABASE: ${DATABASE}
-        MYSQL_USER: ${USERNAME}
-        MYSQL_PASSWORD: ${USERPASS}
-        TZ: 'Asia/Tokyo'
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+  db:
+    image: postgres:15.1-alpine
+    container_name: template-db
     ports:
-        - "3306:3306"
+      - "5432:5432"
+    environment:
+      TZ: Asia/Tokyo
+      LANG: ja_JP.utf8
+      POSTGRES_DB: ${DATABASE}
+      POSTGRES_USER: ${USERNAME}
+      POSTGRES_PASSWORD: ${USERPASS}
     volumes:
-        - db-volume:/var/lib/mysql
-
+      - db_data:/var/lib/postgresql/data
+      - ./testutils/data:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${USERNAME}"]
+      interval: 3s
+      timeout: 3s
+      retries: 3
 volumes:
-  db-volume:
+  db_data:
+    driver: local

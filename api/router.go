@@ -33,11 +33,9 @@ func NewGrpcRouter(db *sql.DB) *http.ServeMux {
 
 	gr := http.NewServeMux()
 
-	// grpcurl -plaintext -v -proto ./proto/greet/v1/greet.proto -d '{"name": "test" }' localhost:9090 greet.v1.GreetService/Greet
 	greetPath, greetHandler := gCon.GreetHandler()
 	gr.Handle(greetPath, middlewares.LoggingMiddleware(greetHandler))
 
-	// grpcurl -plaintext -v -proto ./proto/templateconnectgo/v1/store.proto  -d '{"search_query": "田", "company_cd": 1}' localhost:9090 templateconnectgo.v1.StoreService/ListStores
 	storeListPath, storeListHandler := sCon.StoreListHandler()
 	gr.Handle(storeListPath, middlewares.LoggingMiddleware(storeListHandler))
 

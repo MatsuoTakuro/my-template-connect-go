@@ -9,7 +9,7 @@ import (
 	"github.com/bufbuild/connect-go"
 )
 
-func GrpcError(ctx context.Context, err error) error {
+func ErrorHandlingGrpc(ctx context.Context, err error) error {
 	var connectErr *connect.Error
 	if errors.As(err, &connectErr) {
 		return err

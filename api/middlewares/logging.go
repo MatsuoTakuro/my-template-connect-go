@@ -25,7 +25,6 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		traceID := contexts.NewTraceID()
 
-		// リクエスト情報をロギング
 		log.Printf("[%d]%s %s\n", traceID, req.RequestURI, req.Method)
 
 		rlw := NewResLoggingWriter(w)

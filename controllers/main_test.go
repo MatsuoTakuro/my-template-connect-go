@@ -4,14 +4,14 @@ import (
 	"testing"
 
 	"github.com/MatsuoTakuro/my-template-connect-go/controllers"
-	"github.com/MatsuoTakuro/my-template-connect-go/controllers/testdata"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/MatsuoTakuro/my-template-connect-go/services"
+	_ "github.com/lib/pq"
 )
 
 var sCon *controllers.StoreController
 
 func TestMain(m *testing.M) {
-	ser := testdata.NewServiceMock()
+	ser := services.NewAppServiceMock()
 	sCon = controllers.NewStoreController(ser)
 
 	m.Run()
