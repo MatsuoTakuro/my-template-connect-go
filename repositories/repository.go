@@ -4,26 +4,17 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"os"
 	"time"
 
+	"github.com/MatsuoTakuro/my-template-connect-go/config"
 	_ "github.com/lib/pq"
 )
 
-var (
-	dbHost     = os.Getenv("DB_HOST")
-	dbPort     = os.Getenv("DB_PORT")
-	dbUser     = os.Getenv("DB_USER")
-	dbPassword = os.Getenv("DB_PASSWORD")
-	dbName     = os.Getenv("DB_NAME")
-	dbConn     = fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		dbHost, dbUser, dbPassword, dbName, dbPort,
-	)
-)
-
-func OpenDB(ctx context.Context) (*sql.DB, func(), error) {
-	db, err := sql.Open("postgres", dbConn)
+func OpenDB(ctx context.Context, cfg *config.Config) (*sql.DB, func(), error) {
+	db, err := sql.Open("postgres", fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%d sslmode=disable",
+		cfg.DBHost, cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBPort,
+	))
 	if err != nil {
 		return nil, nil, err
 	}

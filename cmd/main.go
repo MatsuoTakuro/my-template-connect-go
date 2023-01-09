@@ -4,15 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net"
 	"os"
 
+	"github.com/MatsuoTakuro/my-template-connect-go/config"
 	"github.com/MatsuoTakuro/my-template-connect-go/repositories"
-)
-
-var (
-	httpPort = os.Getenv("HTTP1_PORT")
-	grpcPort = os.Getenv("HTTP2_PORT")
 )
 
 func main() {
@@ -23,32 +18,34 @@ func main() {
 }
 
 func run(ctx context.Context) error {
+	cfg, err := config.New()
+	if err != nil {
+		return err
+	}
 
-	db, cleanup, err := repositories.OpenDB(context.Background())
+	db, cleanup, err := repositories.OpenDB(context.Background(), cfg)
 	if err != nil {
 		return err
 	}
 	defer cleanup()
 
-	hl, err := net.Listen("tcp", fmt.Sprintf(":%s", httpPort))
+	httpLner, err := NewListner(cfg.HttpPort)
 	if err != nil {
-		log.Fatalf("failed to listen port %s: %v", httpPort, err)
+		log.Fatalf("failed to listen port %d: %v", cfg.HttpPort, err)
 	}
-	hu := fmt.Sprintf("http://%s", hl.Addr().String())
-	log.Printf("start with: %v", hu)
-	hs := NewServer(db, hl)
+	httpSrv := NewServer(db, httpLner, cfg)
 
-	gl, err := net.Listen("tcp", fmt.Sprintf(":%s", grpcPort))
+	grpcLner, err := NewListner(cfg.GrpcPort)
 	if err != nil {
-		log.Fatalf("failed to listen port %s: %v", grpcPort, err)
+		log.Fatalf("failed to listen port %d: %v", cfg.GrpcPort, err)
 	}
-	gu := fmt.Sprintf("grpc://%s", gl.Addr().String())
-	log.Printf("start with: %v", gu)
-	gs := NewServer(db, gl)
+	grpcSrv := NewServer(db, grpcLner, cfg)
 
 	go func() error {
-		return hs.Run(ctx)
+		log.Printf("start with: %v", fmt.Sprintf("http://%s", httpSrv.l.Addr().String()))
+		return httpSrv.Run(ctx)
 	}()
 
-	return gs.Run(ctx)
+	log.Printf("start with: %v", fmt.Sprintf("grpc://%s", grpcSrv.l.Addr().String()))
+	return grpcSrv.Run(ctx)
 }

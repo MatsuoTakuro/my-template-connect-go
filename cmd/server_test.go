@@ -8,11 +8,17 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/MatsuoTakuro/my-template-connect-go/config"
 	"github.com/MatsuoTakuro/my-template-connect-go/testutils"
 	"golang.org/x/sync/errgroup"
 )
 
 func TestServer_Run(t *testing.T) {
+	cfg, err := config.New()
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	l, err := net.Listen("tcp", "localhost:0")
 	if err != nil {
 		t.Fatalf("failed to listen port %v", err)
@@ -22,7 +28,7 @@ func TestServer_Run(t *testing.T) {
 
 	eg.Go(func() error {
 		// start http server
-		s := NewServer(testutils.OpenDBForTest(t), l)
+		s := NewServer(testutils.OpenDBForTest(t), l, cfg)
 		return s.Run(ctx)
 	})
 	// GET HelloHandler (on http)
