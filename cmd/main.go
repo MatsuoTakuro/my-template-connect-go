@@ -2,14 +2,12 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
-	"net/http"
+	"net"
 	"os"
 
-	"github.com/MatsuoTakuro/my-template-connect-go/api"
 	"github.com/MatsuoTakuro/my-template-connect-go/repositories"
-	"golang.org/x/net/http2"
-	"golang.org/x/net/http2/h2c"
 )
 
 var (
@@ -18,22 +16,39 @@ var (
 )
 
 func main() {
+	if err := run(context.Background()); err != nil {
+		log.Printf("failed to terminate server: %v", err)
+		os.Exit(1)
+	}
+}
+
+func run(ctx context.Context) error {
 
 	db, cleanup, err := repositories.OpenDB(context.Background())
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	defer cleanup()
 
-	hr := api.NewHttpRouter(db)
-	log.Println("http server start at port", httpPort)
+	hl, err := net.Listen("tcp", fmt.Sprintf(":%s", httpPort))
+	if err != nil {
+		log.Fatalf("failed to listen port %s: %v", httpPort, err)
+	}
+	hu := fmt.Sprintf("http://%s", hl.Addr().String())
+	log.Printf("start with: %v", hu)
+	hs := NewServer(db, hl)
 
-	gr := api.NewGrpcRouter(db)
-	log.Println("grpc server start at port", grpcPort)
+	gl, err := net.Listen("tcp", fmt.Sprintf(":%s", grpcPort))
+	if err != nil {
+		log.Fatalf("failed to listen port %s: %v", grpcPort, err)
+	}
+	gu := fmt.Sprintf("grpc://%s", gl.Addr().String())
+	log.Printf("start with: %v", gu)
+	gs := NewServer(db, gl)
 
-	go func() {
-		log.Fatal(http.ListenAndServe(":"+httpPort, hr))
+	go func() error {
+		return hs.Run(ctx)
 	}()
 
-	log.Fatal(http.ListenAndServe(":"+grpcPort, h2c.NewHandler(gr, &http2.Server{})))
+	return gs.Run(ctx)
 }
